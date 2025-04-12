@@ -11,12 +11,19 @@ import orderRouter from './routes/orderRoute.js'
 // App Config
 const app = express()
 const port = process.env.PORT || 4000
+
+const allowedOrigins = [
+    'http://localhost:5173',
+    'https://mybookstory.vercel.app/'
+  ];
 connectDB()
 connectCloudinary()
 
 //midllewares
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: allowedOrigins,
+  }));
 
 // Api endpoints
 app.use('/api/book', bookRouter)
