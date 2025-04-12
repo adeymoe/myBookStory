@@ -14,14 +14,14 @@ const BookCollection = () => {
         <SearchBar />
       </nav>
 
-      <div className="flex flex-wrap w-full justify-start gap-6 px-3">
+      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-3">
         {books.map((book) => {
           const isSold = soldBookIds.includes(book._id);
 
           return (
             <div
               key={book._id}
-              className="relative w-1/2 sm:w-1/2 md:w-1/3 lg:w-1/4" // Updated for mobile view
+              className="relative"
             >
               <Link
                 to={`/bookdetail/${book._id}`}

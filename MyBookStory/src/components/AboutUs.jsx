@@ -19,7 +19,7 @@ const AboutUs = () => {
                             <BadgePoundSterling size={50} />
                         </h2>
                         <h3 className="text-xl font-semibold text-gray-700 mb-2">RESELL WITH EASE</h3>
-                        <p className="text-gray-500">Reach book buyers easily and securely.</p>
+                        <p className="text-gray-500">Reach book buyers easily and securely.  Once a book is sold, it remains on the platform, offering users the opportunity to express interest by liking the listing.</p>
                     </Link>
                     <Link to="https://adedamola-araoye.onrender.com/" className="bg-white p-6 rounded-lg shadow-md">
                         <h2 className="flex justify-center items-center text-center mb-4">
