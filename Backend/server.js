@@ -14,7 +14,7 @@ const port = process.env.PORT || 4000
 
 const allowedOrigins = [
   'http://localhost:5173',
-  'https://mybookstory.vercel.app/'
+  'https://mybookstory.vercel.app'
 ];
 connectDB()
 connectCloudinary()
