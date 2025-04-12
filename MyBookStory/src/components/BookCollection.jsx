@@ -21,7 +21,7 @@ const BookCollection = () => {
           return (
             <div
               key={book._id}
-              className="relative w-full sm:w-1/2 md:w-1/3 lg:w-1/4"
+              className="relative w-1/2 sm:w-1/2 md:w-1/3 lg:w-1/4" // Updated for mobile view
             >
               <Link
                 to={`/bookdetail/${book._id}`}
@@ -39,20 +39,19 @@ const BookCollection = () => {
                     </span>
                   )}
                 </div>
-                </Link>
+              </Link>
 
-                <div className="p-4">
-                  <div className="flex items-center justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900 text-base truncate">
-                      {book.name}
-                    </h3>
-                    <LikeButton bookId={book._id} />
-                  </div>
-                  <p className="text-gray-700 font-bold text-lg">
-                    {currency}{book.price}
-                  </p>
+              <div className="p-4">
+                <div className="flex items-center justify-between mb-2">
+                  <h3 className="font-semibold text-gray-900 text-base truncate">
+                    {book.name}
+                  </h3>
+                  <LikeButton bookId={book._id} />
                 </div>
-              
+                <p className="text-gray-700 font-bold text-lg">
+                  {currency}{book.price}
+                </p>
+              </div>
             </div>
           );
         })}
