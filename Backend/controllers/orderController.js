@@ -81,7 +81,7 @@ const paystackWebhook = async (req, res) => {
             const paymentData = event.data;
             const orderId = new URL(paymentData.metadata?.callback_url || '').searchParams.get('orderId');
 
-            // Update the order in your DB
+            // Update the order DB
             if (orderId) {
                 const order = await orderModel.findById(orderId);
 
@@ -93,7 +93,7 @@ const paystackWebhook = async (req, res) => {
             }
         }
 
-        res.sendStatus(200); // Always respond 200
+        res.sendStatus(200);
     } catch (error) {
         console.error('Webhook error:', error.message);
         res.status(500).send('Webhook error');

@@ -51,8 +51,6 @@ const PlaceOrder = () => {
         }
 
         try {
-            console.log("order Data");
-            
             console.log(orderData);
             if (method === "paystack") {
                 const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/order/paystack`,
