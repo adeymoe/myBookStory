@@ -31,6 +31,8 @@ const placeOrderPayStack = async (req, res) => {
 
         await newOrder.save();
 
+        console.log("ENV PAYSTACK KEY:", paystackSecretKey);
+
         const paystackRes = await axios.post(
             'https://api.paystack.co/transaction/initialize',
             {
