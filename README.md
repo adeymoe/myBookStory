@@ -3,7 +3,7 @@ MyBookStory is a full-stack web application that allows users to browse, purchas
 
 **Link to project:** https://mybookstory.vercel.app/
 
-![alt text](image.png)
+![alt text](image-1.png)
 
 ## How It's Made:
 
