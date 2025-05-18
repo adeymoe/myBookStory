@@ -6,6 +6,7 @@ import connectCloudinary from './config/cloudinary.js'
 import bookRouter from './routes/bookRoute.js'
 import userRouter from './routes/userRoute.js'
 import orderRouter from './routes/orderRoute.js'
+import scheduleOrderCleanup from './cron/orderCleanup.js'
 
 
 // App Config
@@ -14,6 +15,7 @@ const port = process.env.PORT || 4000
 
 const allowedOrigins = [
   'http://localhost:5173',
+  'http://localhost:5174',  
   'https://mybookstory.vercel.app'
 ];
 connectDB()
@@ -43,5 +45,7 @@ app.use('/api/order', orderRouter)
 app.get('/', (req, res) => {
   res.send("API Working")
 })
+
+scheduleOrderCleanup();
 
 app.listen(port, () => console.log('Server started on PORT : ' + port))

@@ -1,12 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import SearchBar from './SearchBar';
 import { Link } from 'react-router-dom';
 import LikeButton from './LikeButton';
 import { ShopContext } from '../context/ShopContext';
 
 const BookCollection = () => {
-  const { books, currency, soldBookIds } = useContext(ShopContext);
+  const { books, currency, soldBookIds, getAllSoldBooks, token } = useContext(ShopContext);
 
+  useEffect(() => {
+    if (token) {
+      getAllSoldBooks();
+    }
+  }, []);
+  
   return (
     <div className="container mx-auto pt-4 pb-12">
       <nav className="w-full px-6 py-3 flex justify-between items-center">
@@ -25,7 +31,8 @@ const BookCollection = () => {
             >
               <Link
                 to={`/bookdetail/${book._id}`}
-                className="block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300"
+                className={`block bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition duration-300 ${isSold ? 'opacity-50 grayscale pointer-events-none' : ''
+                  }`}
               >
                 <div className="relative">
                   <img

@@ -20,7 +20,7 @@ const ShopContextProvider = (props) => {
     // Fetch books securely
     const getBooksData = async () => {
         if (!token) return; // Ensure user is logged in before fetching books
-        
+
         try {
             const response = await axios.get(`${backendUrl}/api/book/list`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -62,6 +62,26 @@ const ShopContextProvider = (props) => {
             } else {
                 console.error("Failed to fetch user details.");
             }
+        }
+    };
+
+
+    //All Paid Orders
+    const getAllSoldBooks = async () => {
+        try {
+            const response = await axios.get(`${backendUrl}/api/order/allPaidOrders`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const paidBookIds = response.data
+                .filter(order => order.status === "paid" || "shipped" || "delivered")
+                .map(order => order.book); 
+
+            setSoldBookIds(paidBookIds);
+        } catch (error) {
+            console.error("Failed to fetch all paid orders:", error);
         }
     };
 
@@ -108,18 +128,18 @@ const ShopContextProvider = (props) => {
     const getUserBuyOrders = async (token) => {
         try {
             const response = await axios.get(`${backendUrl}/api/order/userBuyOrders`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-            });
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
             setBuyOrders(response.data)
 
             const paidBookIds = response.data
                 .filter(order => order.status === "paid")
                 .map(order => order.book); // this is the book ID
             setSoldBookIds(paidBookIds);
-            
+
         } catch (error) {
             console.error("Failed to fetch buy orders:", error);
         }
@@ -131,9 +151,9 @@ const ShopContextProvider = (props) => {
         localStorage.removeItem('user');
         setToken(null);
         setUser(null);
-        
+
         toast.success("Logged out successfully");
-        
+
         setTimeout(() => {
             navigate('/account');
         }, 500);
@@ -144,8 +164,10 @@ const ShopContextProvider = (props) => {
         if (token) {
             getUser();
             getBooksData();
+            getUserBuyOrders(token);
+            getAllSoldBooks();
         }
-    }, [token]); 
+    }, [token]);
 
     // Persist user data when it updates
     useEffect(() => {
@@ -154,10 +176,10 @@ const ShopContextProvider = (props) => {
         } else {
             localStorage.removeItem("user");
         }
-    }, [user]); 
+    }, [user]);
 
     const value = {
-        books, setBooks, currency, navigate, backendUrl, setToken, token, user, setUser, login, register, logout, buyOrders, setBuyOrders, getUserBuyOrders, soldBookIds
+        books, setBooks, currency, navigate, backendUrl, setToken, token, user, setUser, login, register, logout, buyOrders, setBuyOrders, getUserBuyOrders, soldBookIds, getAllSoldBooks
     };
 
     return (

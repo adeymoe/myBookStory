@@ -118,6 +118,62 @@ const removeBook = async (req, res) =>{
     }
 }
 
+const deleteBook = async (req, res) => {
+  try {
+    const bookId = req.params.id;
+
+    const deletedBook = await bookModel.findByIdAndDelete(bookId);
+
+    if (!deletedBook) {
+      return res.status(404).json({ success: false, message: "Book not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Book deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting book:", error);
+    res.status(500).json({ success: false, message: "Failed to delete book" });
+  }
+};
+
+const updateBook = async (req, res) => {
+  try {
+    const bookId = req.params.id;
+    const { name, description, price } = req.body;
+
+    const updatedBook = await bookModel.findByIdAndUpdate(
+      bookId,
+      {
+        ...(name && { name }),
+        ...(description && { description }),
+        ...(price && { price: Number(price) })
+      },
+      { new: true }
+    );
+
+    if (!updatedBook) {
+      return res.status(404).json({ success: false, message: "Book not found" });
+    }
+
+    res.status(200).json({ success: true, message: "Book updated", book: updatedBook });
+  } catch (error) {
+    console.error("Error updating book:", error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+const allBooks = async (req, res) => {
+  try {
+    const books = await bookModel.find().sort({ createdAt: -1 });
+
+    res.status(200).json({ success: true, books });
+  } catch (error) {
+    console.error("Error fetching all books:", error);
+    res.status(500).json({ success: false, message: "Failed to fetch books" });
+  }
+};
 
 
-export {addBook, listBooks, likeBook, likeStatus, removeBook}
+
+
+
+export {addBook, listBooks, likeBook, likeStatus, removeBook, deleteBook, updateBook, allBooks}

@@ -32,8 +32,6 @@ const App = () => {
         <Route path="/profile" element={<ProtectedRoute><ProfilePage/></ProtectedRoute>}/>
         <Route path='/myorders' element={<ProtectedRoute><MyOrdersPage/></ProtectedRoute>}/>
         <Route path='/place-order' element={<ProtectedRoute><PlaceOrder/></ProtectedRoute>}/>
-        
-
 
       </Routes>
       <Footer/>

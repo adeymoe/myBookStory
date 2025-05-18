@@ -16,7 +16,7 @@ const Book = () => {
           setBookData(book);
           setImage(book.image[0])
       }
-  }, [bookId]);
+  }, [bookId, books]);
 
   if (!bookData) {
       return <p className="text-center text-gray-500">Loading book details...</p>;

@@ -7,7 +7,7 @@ MyBookStory is a full-stack web application that allows users to browse, purchas
 
 ## How It's Made:
 
-**Tech used:** MERN, Payments: Paystack, Auth: JWT-based user authentication, Utilities: Axios, dotenv, crypto
+**Tech used:** MERN, Payments: Paystack, Auth: JWT-based user authentication, Utilities: Axios, dotenv, crypto, CRON, PostMark
 
 This project goes beyond just listing and selling books — it's designed with scalability, performance, and clean architecture in mind:
 
