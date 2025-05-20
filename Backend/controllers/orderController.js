@@ -93,6 +93,8 @@ const paystackWebhook = async (req, res) => {
           order.transactionId = paymentData.reference;
           await order.save();
 
+          await order.populate("user");
+
           await sendConfirmationEmail({
             to: order.user.email,
             name: order.user.name || order.user.nickname || "Customer",
@@ -125,21 +127,33 @@ const verifyPaystackPayment = async (req, res) => {
     const data = response.data.data;
 
     if (data.status === 'success') {
-      const { metadata } = data;
-      const orderId = metadata?.orderId;
-      const order = await orderModel.findById(orderId).populate("user");
+      let order;
 
-      if (order) {
-        order.status = 'paid';
-        order.transactionId = reference;
-        await order.save();
+      const metadata = data?.metadata;
+      const orderId = metadata?.orderId;
+
+      if (orderId) {
+        order = await orderModel.findById(orderId).populate("user");
+
+        if (order) {
+          order.status = 'paid';
+          order.transactionId = reference;
+          await order.save();
 
           await sendConfirmationEmail({
             to: order.user.email,
             name: order.user.name || order.user.nickname || "Customer",
             amount: order.amount,
-            reference,
+            reference: paymentData.reference,
           });
+        }
+      } else {
+        // fallback: find order by reference
+        order = await orderModel.findOne({ transactionId: reference }).populate("user");
+      }
+
+      if (!order) {
+        return res.status(404).json({ message: "Order not found." });
       }
 
       return res.status(200).json({ message: 'Payment verified', order });
@@ -147,10 +161,11 @@ const verifyPaystackPayment = async (req, res) => {
       return res.status(400).json({ message: 'Payment not successful' });
     }
   } catch (error) {
-    console.error('Verification error:', error.message);
+    console.error('Verification error:', error?.response?.data || error.message);
     res.status(500).json({ message: 'Could not verify payment' });
   }
 };
+
 
 const getUserBuyOrders = async (req, res) => {
   try {
