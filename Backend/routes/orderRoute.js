@@ -2,7 +2,7 @@ import express from 'express'
 import { placeOrderPayStack, paystackWebhook, verifyPaystackPayment, getUserBuyOrders, getAllOrders, getAllPaidOrders, updateOrderStatus  } from '../controllers/orderController.js';
 import authUser from '../middleware/auth.js';
 import adminAuth from '../middleware/adminAuth.js';
-import orderModel from '../models/orderModel.js';
+// import orderModel from '../models/orderModel.js';
 
 
 const orderRouter = express.Router()

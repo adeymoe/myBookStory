@@ -37,7 +37,7 @@ const placeOrderPayStack = async (req, res) => {
     const paystackRes = await axios.post(
       'https://api.paystack.co/transaction/initialize',
       {
-        email: address.email,
+        email: existingUser.email,
         amount: amount * 100,
         metadata: {
           orderId: newOrder._id.toString(),
@@ -82,11 +82,12 @@ const paystackWebhook = async (req, res) => {
 
     if (event.event === 'charge.success') {
       const paymentData = event.data;
-      const orderId = new URL(paymentData.metadata?.callback_url || '').searchParams.get('orderId');
+      const orderId = paymentData.metadata?.orderId;
+
 
       // Update the order DB
       if (orderId) {
-        const order = await orderModel.findById(orderId);
+        const order = await orderModel.findById(orderId) || await orderModel.findOne({ transactionId: paymentData.reference });
 
         if (order) {
           order.status = 'paid';
@@ -99,7 +100,7 @@ const paystackWebhook = async (req, res) => {
             to: order.user.email,
             name: order.user.name || order.user.nickname || "Customer",
             amount: order.amount,
-            reference,
+            reference: paymentData.reference,
           });
         }
       }
@@ -144,7 +145,7 @@ const verifyPaystackPayment = async (req, res) => {
             to: order.user.email,
             name: order.user.name || order.user.nickname || "Customer",
             amount: order.amount,
-            reference: paymentData.reference,
+            reference: reference,
           });
         }
       } else {
@@ -170,7 +171,7 @@ const verifyPaystackPayment = async (req, res) => {
 const getUserBuyOrders = async (req, res) => {
   try {
     const userId = req.userId;
-    const orders = await orderModel.find({ user: userId }).sort({ createdAt: -1 });
+    const orders = await orderModel.find({ user: userId }).sort({ createdAt: -1 }).populate('book');
     res.status(200).json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Failed to fetch orders' });

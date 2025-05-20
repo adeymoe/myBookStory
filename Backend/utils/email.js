@@ -19,9 +19,11 @@ export const sendConfirmationEmail = async ({ to, name, amount, reference }) => 
       <p>Reference: <code>${reference}</code></p>
       <p>We are processing your order and will get in touch with the delivery details soon.</p>
       <br/>
-      <small>If you have any questions, just reply to this email or contact <a>mycodestorybox@gmail.com</a></small>
+      <small>If you have any questions, just reply to this email or contact <a href="mailto:mycodestorybox@gmail.com">mycodestorybox@gmail.com</a></small>
     `,
   };
 
-  await transporter.sendMail(mailOptions);
+  await transporter.sendMail(mailOptions)
+  .then(info => console.log("Confirmation email sent:", info.response))
+  .catch(err => console.error("Email sending failed:", err));
 };
