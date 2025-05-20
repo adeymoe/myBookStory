@@ -92,6 +92,13 @@ const paystackWebhook = async (req, res) => {
           order.status = 'paid';
           order.transactionId = paymentData.reference;
           await order.save();
+
+          await sendConfirmationEmail({
+            to: order.user.email,
+            name: order.user.name || order.user.nickname || "Customer",
+            amount: order.amount,
+            reference,
+          });
         }
       }
     }
