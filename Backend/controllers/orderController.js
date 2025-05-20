@@ -127,12 +127,12 @@ const verifyPaystackPayment = async (req, res) => {
         order.transactionId = reference;
         await order.save();
 
-        //   await sendConfirmationEmail({
-        //     to: order.user.email,
-        //     name: order.user.name || order.user.nickname || "Customer",
-        //     amount: order.amount,
-        //     reference,
-        //   });
+          await sendConfirmationEmail({
+            to: order.user.email,
+            name: order.user.name || order.user.nickname || "Customer",
+            amount: order.amount,
+            reference,
+          });
       }
 
       return res.status(200).json({ message: 'Payment verified', order });

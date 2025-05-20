@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const API_BASE = import.meta.env.VITE_BACKEND_URL;
 
@@ -10,6 +11,7 @@ const AdminDashboard = ({ token }) => {
   const [editingBookId, setEditingBookId] = useState(null);
   const [formData, setFormData] = useState({});
   const [error, setError] = useState(null);
+  
 
   const fetchDashboardData = async () => {
     setLoading(true);
@@ -26,8 +28,13 @@ const AdminDashboard = ({ token }) => {
       setOrders(Array.isArray(ordersRes.data) ? ordersRes.data : ordersRes.data.orders);
       setBooks(Array.isArray(booksRes.data) ? booksRes.data : booksRes.data.books);
     } catch (err) {
+       if (err.response && err.response.status === 401) {
+      alert("Session expired. Logging out...");
+      logout(); // Auto logout if token is invalid
+    } else {
       console.error("Error fetching data", err);
       setError("Failed to load dashboard data.");
+    }
     } finally {
       setLoading(false);
     }
@@ -72,7 +79,7 @@ const AdminDashboard = ({ token }) => {
   };
 
   const handleStatusChange = async (orderId, newStatus) => {
-    if (!window.confirm("Are you sure you want to update order status?")) return;
+    if (!window.confirm(`Are you sure you want to update order status to ${newStatus}?`)) return;
   try {
     await axios.put(`${API_BASE}/api/order/update-status/${orderId}`, { status: newStatus }, {
       headers: { Authorization: `Bearer ${token}` },
@@ -88,6 +95,15 @@ const AdminDashboard = ({ token }) => {
   }
 };
 
+const logout = () => {
+        localStorage.removeItem('token');
+        toast.success("Logged out successfully");
+
+        setTimeout(() => {
+            window.location.reload();
+        }, 500);
+    };
+
   useEffect(() => {
     if (token) {
       fetchDashboardData();
@@ -99,7 +115,15 @@ const AdminDashboard = ({ token }) => {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-      <h1 className="text-3xl font-bold mb-6 text-gray-800">Admin Dashboard</h1>
+      <div className="flex justify-between items-center mb-6">
+  <h1 className="text-3xl font-bold text-gray-800">Admin Dashboard</h1>
+  <button
+    onClick={logout}
+    className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded"
+  >
+    Log Out
+  </button>
+</div>
 
       {/* Orders Section */}
       <section className="mb-10">

@@ -32,7 +32,7 @@ const Carousel = () => {
 
   return (
     <div className="relative container mx-auto overflow-hidden mt-4 rounded-lg shadow-md" style={{ maxWidth: "1600px" }}>
-      <div className="relative w-full h-[55vh] md:h-[65vh]">
+      <div className="relative w-full h-[30vh] md:h-[35vh]">
         {slides.map((slide, index) => (
           <div
             key={slide.id}

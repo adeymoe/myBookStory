@@ -17,9 +17,9 @@ export const sendConfirmationEmail = async ({ to, name, amount, reference }) => 
       <h2>Thank you, ${name}!</h2>
       <p>Your payment of <strong>₦${amount}</strong> was successful.</p>
       <p>Reference: <code>${reference}</code></p>
-      <p>We are processing your order and will ship it to you shortly.</p>
+      <p>We are processing your order and will get in touch with the delivery details soon.</p>
       <br/>
-      <small>If you have any questions, just reply to this email.</small>
+      <small>If you have any questions, just reply to this email or contact <a>mycodestorybox@gmail.com</a></small>
     `,
   };
 

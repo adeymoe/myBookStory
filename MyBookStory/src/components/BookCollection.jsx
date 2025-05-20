@@ -3,23 +3,34 @@ import SearchBar from './SearchBar';
 import { Link } from 'react-router-dom';
 import LikeButton from './LikeButton';
 import { ShopContext } from '../context/ShopContext';
+import Spinner from './Spinner';
+import { useState } from 'react';
 
 const BookCollection = () => {
   const { books, currency, soldBookIds, getAllSoldBooks, token } = useContext(ShopContext);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (token) {
       getAllSoldBooks();
     }
-  }, []);
+    const checkBooks = setInterval(() => {
+    if (books.length > 0) {
+      setLoading(false);
+      clearInterval(checkBooks);
+    }
+  }, 100);
+
+  return () => clearInterval(checkBooks);
+  }, [books]);
   
+  if (loading) return <Spinner />;
   return (
     <div className="container mx-auto pt-4 pb-12">
       <nav className="w-full px-6 py-3 flex justify-between items-center">
         <h1 className="text-xl sm:text-2xl font-bold text-gray-800">Book Collection</h1>
         <SearchBar />
       </nav>
-
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-3">
         {books.map((book) => {
           const isSold = soldBookIds.includes(book._id);

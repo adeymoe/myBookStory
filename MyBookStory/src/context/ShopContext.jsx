@@ -17,10 +17,9 @@ const ShopContextProvider = (props) => {
     const [buyOrders, setBuyOrders] = useState([]);
     const [soldBookIds, setSoldBookIds] = useState([]);
 
-    // Fetch books securely
+    // Fetch books
     const getBooksData = async () => {
-        if (!token) return; // Ensure user is logged in before fetching books
-
+        if (!token) return;
         try {
             const response = await axios.get(`${backendUrl}/api/book/list`, {
                 headers: { Authorization: `Bearer ${token}` },
@@ -76,8 +75,8 @@ const ShopContextProvider = (props) => {
             });
 
             const paidBookIds = response.data
-                .filter(order => order.status === "paid" || "shipped" || "delivered")
-                .map(order => order.book); 
+                .filter(order => order.status === "paid" || order.status === "shipped" || order.status === "delivered")
+                .map(order => order.book);
 
             setSoldBookIds(paidBookIds);
         } catch (error) {
