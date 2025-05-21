@@ -106,7 +106,7 @@ const MyOrders = () => {
                     <td className="p-3">BUY</td>
                     <td className="p-3 font-medium">
                       {
-                        books.find((book) => book._id === order.book)?.name || "Book not found"
+                        books.find((book) => book._id === order.book?.name) || "Book not found"
                       }
                     </td>
                     <td className="p-3">{order.amount}</td>
