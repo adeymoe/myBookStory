@@ -47,7 +47,7 @@ const MyOrders = () => {
                 <th className="p-3">Order Type</th>
                 <th className="p-3">Book Name</th>
                 <th className="p-3">Price</th>
-                <th className="p-3">Status</th>
+                {/* <th className="p-3">Status</th> */}
                 <th className="p-3">Likes</th>
                 <th className="p-3">Date Listed</th>
                 <th className="p-3">
@@ -63,11 +63,11 @@ const MyOrders = () => {
                     <td className="p-3">SELL</td>
                     <td className="p-3 font-medium">{book.name}</td>
                     <td className="p-3">{book.price}</td>
-                    <td className="p-3">
+                    {/* <td className="p-3">
                       <span className="bg-yellow-500 text-white px-2 py-1 rounded-md text-xs">
                         created
                       </span>
-                    </td>
+                    </td> */}
                     <td className="p-3">{book.likes}</td>
                     <td className="p-3">
                       {new Date(book.createdAt).toLocaleDateString("en-US", {
