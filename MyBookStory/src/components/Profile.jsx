@@ -44,7 +44,7 @@ const Profile = () => {
                 <div className="bg-gray-100 p-4 rounded-lg border-l-4 border-blue-500 shadow-sm">
                     <p className="italic text-gray-700 text-lg">
                         <span className="text-2xl text-blue-500">❝</span>
-                        I started reading in an attempt to reduce my screen time, now I am in love with books. I just need to handle all my business in a healthy way.
+                        I started reading in an attempt to reduce my screen time, now I am in love with books. I just need to handle all my business in an healthy way.
                         <span className="text-2xl text-blue-500"> ❞</span>
                     </p>
                 </div>
