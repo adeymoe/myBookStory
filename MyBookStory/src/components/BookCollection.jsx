@@ -32,7 +32,7 @@ const BookCollection = () => {
         <SearchBar />
       </nav>
       <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 px-3">
-        {books.map((book) => {
+        {[...books].reverse().map((book) => {
           const isSold = soldBookIds.includes(book._id);
 
           return (
