@@ -105,9 +105,7 @@ const MyOrders = () => {
                   <tr key={order._id} className="border-b hover:bg-gray-100">
                     <td className="p-3">BUY</td>
                     <td className="p-3 font-medium">
-                      {
-                        books.find((book) => book._id === order.book?.name) || "Book not found"
-                      }
+                      {order.book?.name || "Book not found"}
                     </td>
                     <td className="p-3">{order.amount}</td>
                     <td className="p-3">
